@@ -120,7 +120,81 @@
 
         main {
             flex: 1;
-            padding: 30px;
+            padding: 10px;
+        }
+
+        .categories {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin: 20px 0;
+            padding: 15px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .category {
+            padding: 10px 20px;
+            margin: 8px;
+            background-color: #f1f1f1;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            min-width: 200px;
+        }
+
+        .category:hover {
+            background-color: #27ae60;
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .product-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 15px;
+        }
+
+        .product-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+
+        .product-description {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .product-price {
+            font-weight: bold;
+            color: #27ae60;
         }
 
         footer {
@@ -154,30 +228,108 @@
         <p>Suggerimenti: <span id="txtHint"></span></p>
     </div>
 
-    <main>
-        <h2>Benvenuti su Fiori Ribelli</h2>
-        <p>Scopri la nostra collezione di fiori unici e creativi</p>
+    <main>        
+        <div class="categories">
+            <div class="category">Rose (antiche e moderne)</div>
+            <div class="category">Erbacee Perenni (Sole, Mezz'ombra, Ombra)</div>
+            <div class="category">Prodotti per la cura delle piante</div>
+            <div class="category">Oggettistica solidale</div>
+        </div>
+
+        <div class="products-grid">
+            <div class="product-card">
+                <img src="" alt="Rosa Alba" class="product-image">
+                <div class="product-info">
+                    <div class="product-name">Alba</div>
+                    <div class="product-description">Rose antiche bianche o rosa pallido, molto profumate e resistenti</div>
+                    <div class="product-price">€18,00</div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="" alt="Rosa Bourbon" class="product-image">
+                <div class="product-info">
+                    <div class="product-name">Bourbon</div>
+                    <div class="product-description">Rose rifiorenti con fiori grandi e profumo intenso</div>
+                    <div class="product-price">€20,00</div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="" alt="Rosa Centifolia" class="product-image">
+                <div class="product-info">
+                    <div class="product-name">Centifolia</div>
+                    <div class="product-description">Conosciute come "rose a cento petali", molto profumate</div>
+                    <div class="product-price">€22,00</div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="" alt="Rosa Centifolia Muscosa" class="product-image">
+                <div class="product-info">
+                    <div class="product-name">Centifolia Muscosa</div>
+                    <div class="product-description">Varietà con calici muschiosi, profumo intenso e petali doppi</div>
+                    <div class="product-price">€25,00</div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="" alt="Rose Cinesi" class="product-image">
+                <div class="product-info">
+                    <div class="product-name">Cinesi</div>
+                    <div class="product-description">Rose compatte con fioritura continua e colori vivaci</div>
+                    <div class="product-price">€16,00</div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="" alt="Rose David Austin" class="product-image">
+                <div class="product-info">
+                    <div class="product-name">Inglesi David Austin</div>
+                    <div class="product-description">Ibridi moderni con forma antica e profumo eccezionale</div>
+                    <div class="product-price">€28,00</div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="" alt="Rosa Damascena" class="product-image">
+                <div class="product-info">
+                    <div class="product-name">Damascena</div>
+                    <div class="product-description">Celebri per il profumo, utilizzate in profumeria</div>
+                    <div class="product-price">€23,00</div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="" alt="Rose Floribunda" class="product-image">
+                <div class="product-info">
+                    <div class="product-name">Floribunda</div>
+                    <div class="product-description">Abbondanti fioriture a mazzi, ideali per bordure</div>
+                    <div class="product-price">€19,00</div>
+                </div>
+            </div>
+        </div>
     </main>
 
     <footer>
         <p>&copy; 2023 Fiori Ribelli - Tutti i diritti riservati</p>
     </footer>
 
-    <script>//TUTTO JS QUESTO
+    <script>
         function copyToClipboard(element) {
             const text = element.textContent;
-            navigator.clipboard.writeText(text)//OPERAZIONE ASINCRONA PER COPIARE NEGLI UPPINTI IL NUMERO O L'EMAIL
-                .then(() => { //VIENE ESEGUITO SOLO SE VA A BUON FINE LA VECCHIA OPERAZIONE
+            navigator.clipboard.writeText(text)
+                .then(() => {
                     const originalColor = element.style.color;
                     element.style.color = "#a0a0a0";
                     setTimeout(() => {
                         element.style.color = originalColor;
-                    }, 500); //DOPO 500 MILLISECONDI TORNA IL COLORE DI PRIMA
+                    }, 500);
                 })
         }
 
         function showHint(str) {
-            if (str.length == 0) {
+            if (str.length == 0) { 
                 document.getElementById("txtHint").innerHTML = "";
                 return;
             }
@@ -186,8 +338,8 @@
                 document.getElementById("txtHint").innerHTML = this.responseText;
             }
             xhttp.open("GET", ""+str);//MANCA IL COLLEGAMENTO AL DB
-            xhttp.send();  
+            xhttp.send();   
         }
     </script>
 </body>
-</html>
+</html>
