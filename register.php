@@ -11,29 +11,33 @@ $success = '';
 
 if(isset($_POST['Submit'])){
     require_once 'collegamento_db.php';
-    $pdo = collegaDB();
+    $pdo = pdoDB();
    
-    $user = trim($_POST['user']);
+    $username = trim($_POST['user']);
     $email = trim($_POST['email']);
-    $pass = $_POST['pass'];
-   
-    if(empty($user) || empty($email) || empty($pass)) {
+    $password = $_POST['pass'];
+   	
+
+    if(empty($username) || empty($email) || empty($password)) {
         $error = 'Tutti i campi sono obbligatori!';
     } elseif(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = 'Inserisci un indirizzo email valido!';
     } else {
-        $hash = password_hash($pass, PASSWORD_DEFAULT);
-       
-        $query = "INSERT INTO users(user, email, password) VALUES(:user, :email, :pass)";
+        $random_salt = bin2hex(random_bytes(16));
+        $password = password_hash($password . $random_salt, PASSWORD_DEFAULT);
+
+        $query = "INSERT INTO users(username, email, pass, salt) VALUES(:username, :email, :password, :random_salt)";
         $stm = $pdo->prepare($query);
-        $stm->bindParam(':user', $user);
+        $stm->bindParam(':username', $username);
         $stm->bindParam(':email', $email);
-        $stm->bindParam(':pass', $hash);
+        $stm->bindParam(':password', $password);
+        $stm->bindParam(':random_salt', $random_salt);
        
         if($stm->execute()){
-            $_SESSION['users'] = $user;
-            $_SESSION['start_time'] = time();
-            header("Location: home.php");
+        echo "entrato";
+            //$_SESSION['users'] = $user;
+            //$_SESSION['start_time'] = time();
+            header("Location: login.php");
             exit;
         } else {
             $error = 'Errore durante la registrazione. Riprova più tardi.';
@@ -199,7 +203,7 @@ if(isset($_POST['Submit'])){
             <div class="error"><?php echo $error; ?></div>
         <?php endif; ?>
        
-        <form action="registrati.php" method="POST" novalidate>
+        <form action="register.php" method="POST" novalidate>
             <div class="input-group">
                 <input type="text" name="user" placeholder="Username">
             </div>
