@@ -223,15 +223,13 @@
         <h3>Cerca tra i nostri prodotti:</h3>
         <div class="search-bar">
             <input type="text" id="txt1" placeholder="Cerca fiori, composizioni..." onkeyup="showHint(this.value)">
-            <button type="submit">Cerca</button>
         </div>
-        <p>Suggerimenti: <span id="txtHint"></span></p>
     </div>
 
     <main>        
         <div class="categories">
-            <div class="category">Rose (antiche e moderne)</div>
-            <div class="category">Erbacee Perenni (Sole, Mezz'ombra, Ombra)</div>
+            <div class="category">Rose</div>
+            <div class="category">Erbacee Perenni</div>
             <div class="category">Prodotti per la cura delle piante</div>
             <div class="category">Oggettistica solidale</div>
         </div>
