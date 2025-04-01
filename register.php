@@ -15,7 +15,7 @@ if(isset($_POST['Submit'])){
    
     $username = trim($_POST['user']);
     $email = trim($_POST['email']);
-    $password = $_POST['pass'];
+    $password = trim($_POST['pass']);
    	
 
     if(empty($username) || empty($email) || empty($password)) {
