@@ -57,8 +57,8 @@ CREATE TABLE indirizzi (
 
 CREATE TABLE users (
   id int auto_increment PRIMARY KEY,
-  username varchar(100) NOT NULL,
-  email varchar(100) NOT NULL,
+  username varchar(100) NOT NULL UNIQUE,
+  email varchar(100) NOT NULL UNIQUE,
   pass char(128) NOT NULL,
   salt char(128) NOT NULL,
   verifica varchar(3) NOT NULL
