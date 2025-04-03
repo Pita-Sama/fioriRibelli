@@ -26,7 +26,7 @@ if(isset($_POST['submit'])){
         $stm -> bindParam(":username",$username);
         $stm -> execute();
         if($stm -> rowCount() > 0){
-        	$record = $stm -> fetch();
+        	$record = $stm -> fetch(PDO::FETCH_ASSOC);
             if(password_verify($password . $record["salt"], $record["pass"])){
             	$_SESSION['users'] = $user;
                 $_SESSION['start_time'] = time();
