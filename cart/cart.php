@@ -32,7 +32,7 @@ foreach ($carrello as $item) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carrello</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="cart.css">
 </head>
 <body>
     <h1>Il tuo Carrello</h1>
