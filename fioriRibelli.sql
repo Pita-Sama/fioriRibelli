@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE categorie(
   id int auto_increment PRIMARY KEY,
-  nome varchar(32) NOT NULL,
+  nome varchar(64) NOT NULL,
   descrizione varchar(256)
 );
 
