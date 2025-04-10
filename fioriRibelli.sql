@@ -37,7 +37,7 @@ CREATE TABLE categorie(
 CREATE TABLE prodotti (
   id int(5) auto_increment PRIMARY KEY,
   nome varchar(64) NOT NULL,
-  immagine LONGBLOB NOT NULL,
+  immagine varchar(128) NOT NULL,
   descrizione varchar(255) NOT NULL,
   prezzo double(10,2) NOT NULL,
   id_categoria int,
