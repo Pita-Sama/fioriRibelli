@@ -23,81 +23,91 @@
         <h3>Cerca tra i nostri prodotti:</h3>
         <div class="search-bar">
             <input type="text" id="txt1" placeholder="Cerca fiori, composizioni..." onkeyup="showHint(this.value)">
+            <button type="submit">Cerca</button>
         </div>
+        <p>Suggerimenti: <span id="txtHint"></span></p>
     </div>
 
     <main>        
         <div class="categories">
-            <div class="category">Rose</div>
-            <div class="category">Erbacee Perenni</div>
+            <div class="category">Rose (antiche e moderne)</div>
+            <div class="category">Erbacee Perenni (Sole, Mezz'ombra, Ombra)</div>
             <div class="category">Prodotti per la cura delle piante</div>
             <div class="category">Oggettistica solidale</div>
         </div>
 
         <div class="products-grid">
-            <?php
-            $products = [
-                [
-                    "name" => "Alba",
-                    "desc" => "Rose antiche bianche o rosa pallido, molto profumate e resistenti",
-                    "price" => "€18,00",
-                    "img" => "alba.jpg"
-                ],
-                [
-                    "name" => "Bourbon",
-                    "desc" => "Rose rifiorenti con fiori grandi e profumo intenso",
-                    "price" => "€20,00",
-                    "img" => "bourbon.jpg"
-                ],
-                [
-                    "name" => "Centifolia",
-                    "desc" => "Conosciute come \"rose a cento petali\", molto profumate",
-                    "price" => "€22,00",
-                    "img" => "centifolia.jpg"
-                ],
-                [
-                    "name" => "Centifolia Muscosa",
-                    "desc" => "Varietà con calici muschiosi, profumo intenso e petali doppi",
-                    "price" => "€25,00",
-                    "img" => "centifolia-muscosa.jpg"
-                ],
-                [
-                    "name" => "Cinesi",
-                    "desc" => "Rose compatte con fioritura continua e colori vivaci",
-                    "price" => "€16,00",
-                    "img" => "cinesi.jpg"
-                ],
-                [
-                    "name" => "Inglesi David Austin",
-                    "desc" => "Ibridi moderni con forma antica e profumo eccezionale",
-                    "price" => "€28,00",
-                    "img" => "david-austin.jpg"
-                ],
-                [
-                    "name" => "Damascena",
-                    "desc" => "Celebri per il profumo, utilizzate in profumeria",
-                    "price" => "€23,00",
-                    "img" => "damascena.jpg"
-                ],
-                [
-                    "name" => "Floribunda",
-                    "desc" => "Abbondanti fioriture a mazzi, ideali per bordure",
-                    "price" => "€19,00",
-                    "img" => "floribunda.jpg"
-                ]
-            ];
+            <div class="product-card">
+                <img src="" alt="Rosa Alba" class="product-image">
+                <div class="product-info">
+                    <div class="product-name">Alba</div>
+                    <div class="product-description">Rose antiche bianche o rosa pallido, molto profumate e resistenti</div>
+                    <div class="product-price">€18,00</div>
+                </div>
+            </div>
 
-            foreach ($products as $product) {
-                echo '<div class="product-card">';
-                echo '<img src="img/' . $product["img"] . '" alt="' . htmlspecialchars($product["name"]) . '" class="product-image">';
-                echo '<div class="product-info">';
-                echo '<div class="product-name">' . htmlspecialchars($product["name"]) . '</div>';
-                echo '<div class="product-description">' . htmlspecialchars($product["desc"]) . '</div>';
-                echo '<div class="product-price">' . $product["price"] . '</div>';
-                echo '</div>';
-                echo '</div>';
-            }
-            ?>
+            <div class="product-card">
+                <img src="" alt="Rosa Bourbon" class="product-image">
+                <div class="product-info">
+                    <div class="product-name">Bourbon</div>
+                    <div class="product-description">Rose rifiorenti con fiori grandi e profumo intenso</div>
+                    <div class="product-price">€20,00</div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="" alt="Rosa Centifolia" class="product-image">
+                <div class="product-info">
+                    <div class="product-name">Centifolia</div>
+                    <div class="product-description">Conosciute come "rose a cento petali", molto profumate</div>
+                    <div class="product-price">€22,00</div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="" alt="Rosa Centifolia Muscosa" class="product-image">
+                <div class="product-info">
+                    <div class="product-name">Centifolia Muscosa</div>
+                    <div class="product-description">Varietà con calici muschiosi, profumo intenso e petali doppi</div>
+                    <div class="product-price">€25,00</div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="" alt="Rose Cinesi" class="product-image">
+                <div class="product-info">
+                    <div class="product-name">Cinesi</div>
+                    <div class="product-description">Rose compatte con fioritura continua e colori vivaci</div>
+                    <div class="product-price">€16,00</div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="" alt="Rose David Austin" class="product-image">
+                <div class="product-info">
+                    <div class="product-name">Inglesi David Austin</div>
+                    <div class="product-description">Ibridi moderni con forma antica e profumo eccezionale</div>
+                    <div class="product-price">€28,00</div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="" alt="Rosa Damascena" class="product-image">
+                <div class="product-info">
+                    <div class="product-name">Damascena</div>
+                    <div class="product-description">Celebri per il profumo, utilizzate in profumeria</div>
+                    <div class="product-price">€23,00</div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="" alt="Rose Floribunda" class="product-image">
+                <div class="product-info">
+                    <div class="product-name">Floribunda</div>
+                    <div class="product-description">Abbondanti fioriture a mazzi, ideali per bordure</div>
+                    <div class="product-price">€19,00</div>
+                </div>
+            </div>
         </div>
     </main>
 
