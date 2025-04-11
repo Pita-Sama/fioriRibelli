@@ -310,7 +310,7 @@
     </main>
 
     <footer>
-        <p>&copy; 2023 Fiori Ribelli - Tutti i diritti riservati</p>
+        <p>&copy; 2025 Fiori Ribelli - Tutti i diritti riservati</p>
     </footer>
 
     <script>
