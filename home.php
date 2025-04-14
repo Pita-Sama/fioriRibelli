@@ -446,100 +446,48 @@
 
     <main>        
         <div class="categories">
-            <div class="category">Rose</div>
-            <div class="category">Erbacee Perenni</div>
-            <div class="category">Prodotti per la cura delle piante</div>
-            <div class="category">Oggettistica solidale</div>
+            <?php
+            
+            require_once("collegamento_db.php");
+            
+            // Connessione al database
+            $pdo = pdoDB();
+            
+            // Query per ottenere le categorie uniche
+            $sql_categorie = "SELECT DISTINCT nome FROM categorie";
+            $result_categorie = $pdo->query($sql_categorie);
+            
+            if ($result_categorie->rowCount() > 0) {
+                while($row = $result_categorie->fetch(PDO::FETCH_ASSOC)) {
+                    echo '<div class="category">' . htmlspecialchars($row["nome"]) . '</div>';
+                }
+            }
+            ?>
         </div>
 
         <div class="products-grid">
-            <!-- Prodotto 1 -->
-            <div class="product-card">
-                <img src="https://via.placeholder.com/250x180?text=Rosa+Alba" alt="Rosa Alba" class="product-image">
-                <div class="product-info">
-                    <div class="product-name">Alba</div>
-                    <div class="product-description">Rose antiche bianche o rosa pallido, molto profumate e resistenti</div>
-                    <div class="product-price">€18,00</div>
-                    <button class="add-to-cart-btn" onclick="addToCart('Alba', 18, 'https://via.placeholder.com/250x180?text=Rosa+Alba')">Aggiungi al carrello</button>
-                </div>
-            </div>
-
-            <!-- Prodotto 2 -->
-            <div class="product-card">
-                <img src="https://via.placeholder.com/250x180?text=Rosa+Bourbon" alt="Rosa Bourbon" class="product-image">
-                <div class="product-info">
-                    <div class="product-name">Bourbon</div>
-                    <div class="product-description">Rose rifiorenti con fiori grandi e profumo intenso</div>
-                    <div class="product-price">€20,00</div>
-                    <button class="add-to-cart-btn" onclick="addToCart('Bourbon', 20, 'https://via.placeholder.com/250x180?text=Rosa+Bourbon')">Aggiungi al carrello</button>
-                </div>
-            </div>
-
-            <!-- Prodotto 3 -->
-            <div class="product-card">
-                <img src="https://via.placeholder.com/250x180?text=Rosa+Centifolia" alt="Rosa Centifolia" class="product-image">
-                <div class="product-info">
-                    <div class="product-name">Centifolia</div>
-                    <div class="product-description">Conosciute come "rose a cento petali", molto profumate</div>
-                    <div class="product-price">€22,00</div>
-                    <button class="add-to-cart-btn" onclick="addToCart('Centifolia', 22, 'https://via.placeholder.com/250x180?text=Rosa+Centifolia')">Aggiungi al carrello</button>
-                </div>
-            </div>
-
-            <!-- Prodotto 4 -->
-            <div class="product-card">
-                <img src="https://via.placeholder.com/250x180?text=Centifolia+Muscosa" alt="Centifolia Muscosa" class="product-image">
-                <div class="product-info">
-                    <div class="product-name">Centifolia Muscosa</div>
-                    <div class="product-description">Varietà con calici muschiosi, profumo intenso e petali doppi</div>
-                    <div class="product-price">€25,00</div>
-                    <button class="add-to-cart-btn" onclick="addToCart('Centifolia Muscosa', 25, 'https://via.placeholder.com/250x180?text=Centifolia+Muscosa')">Aggiungi al carrello</button>
-                </div>
-            </div>
-
-            <!-- Prodotto 5 -->
-            <div class="product-card">
-                <img src="https://via.placeholder.com/250x180?text=Rose+Cinesi" alt="Rose Cinesi" class="product-image">
-                <div class="product-info">
-                    <div class="product-name">Cinesi</div>
-                    <div class="product-description">Rose compatte con fioritura continua e colori vivaci</div>
-                    <div class="product-price">€16,00</div>
-                    <button class="add-to-cart-btn" onclick="addToCart('Cinesi', 16, 'https://via.placeholder.com/250x180?text=Rose+Cinesi')">Aggiungi al carrello</button>
-                </div>
-            </div>
-
-            <!-- Prodotto 6 -->
-            <div class="product-card">
-                <img src="https://via.placeholder.com/250x180?text=Rose+David+Austin" alt="Rose David Austin" class="product-image">
-                <div class="product-info">
-                    <div class="product-name">Inglesi David Austin</div>
-                    <div class="product-description">Ibridi moderni con forma antica e profumo eccezionale</div>
-                    <div class="product-price">€28,00</div>
-                    <button class="add-to-cart-btn" onclick="addToCart('Inglesi David Austin', 28, 'https://via.placeholder.com/250x180?text=Rose+David+Austin')">Aggiungi al carrello</button>
-                </div>
-            </div>
-
-            <!-- Prodotto 7 -->
-            <div class="product-card">
-                <img src="https://via.placeholder.com/250x180?text=Rosa+Damascena" alt="Rosa Damascena" class="product-image">
-                <div class="product-info">
-                    <div class="product-name">Damascena</div>
-                    <div class="product-description">Celebri per il profumo, utilizzate in profumeria</div>
-                    <div class="product-price">€23,00</div>
-                    <button class="add-to-cart-btn" onclick="addToCart('Damascena', 23, 'https://via.placeholder.com/250x180?text=Rosa+Damascena')">Aggiungi al carrello</button>
-                </div>
-            </div>
-
-            <!-- Prodotto 8 -->
-            <div class="product-card">
-                <img src="https://via.placeholder.com/250x180?text=Rose+Floribunda" alt="Rose Floribunda" class="product-image">
-                <div class="product-info">
-                    <div class="product-name">Floribunda</div>
-                    <div class="product-description">Abbondanti fioriture a mazzi, ideali per bordure</div>
-                    <div class="product-price">€19,00</div>
-                    <button class="add-to-cart-btn" onclick="addToCart('Floribunda', 19, 'https://via.placeholder.com/250x180?text=Rose+Floribunda')">Aggiungi al carrello</button>
-                </div>
-            </div>
+            <?php
+            // Query per ottenere tutti i prodotti
+            $sql_prodotti = "SELECT * FROM prodotti";
+            $result_prodotti = $pdo->query($sql_prodotti);
+            
+            if ($result_prodotti->rowCount() > 0) {
+                while($row = $result_prodotti->fetch(PDO::FETCH_ASSOC)) {
+                    echo '
+                    <div class="product-card">
+                        <img src="' . htmlspecialchars($row["immagine"]) . '" alt="' . htmlspecialchars($row["nome"]) . '" class="product-image">
+                        <div class="product-info">
+                            <div class="product-name">' . htmlspecialchars($row["nome"]) . '</div>
+                            <div class="product-description">' . htmlspecialchars($row["descrizione"]) . '</div>
+                            <div class="product-price">€' . number_format($row["prezzo"], 2, ',', '.') . '</div>
+                            <button class="add-to-cart-btn" onclick="addToCart(\'' . addslashes($row["nome"]) . '\', ' . $row["prezzo"] . ', \'' . addslashes($row["immagine"]) . '\')">Aggiungi al carrello</button>
+                        </div>
+                    </div>';
+                }
+            } else {
+                echo "<p>Nessun prodotto disponibile al momento.</p>";
+            }
+            ?>
         </div>
     </main>
 
@@ -565,7 +513,7 @@
     </div>
 
     <footer>
-        <p>&copy; 2023 Fiori Ribelli - Tutti i diritti riservati</p>
+        <p>&copy; 2025 Fiori Ribelli - Tutti i diritti riservati</p>
     </footer>
 
     <script>
@@ -739,19 +687,20 @@
                 })
         }
 
-        // Funzione per la ricerca (da implementare)
-        function showHint(str) {
+        // Funzione per la ricerca AJAX ANCORA DA FARE
+        /*function showHint(str) {
             if (str.length == 0) { 
                 document.getElementById("txtHint").innerHTML = "";
                 return;
             }
+            
             const xhttp = new XMLHttpRequest();
             xhttp.onload = function() {
                 document.getElementById("txtHint").innerHTML = this.responseText;
             }
-            xhttp.open("GET", ""+str);//MANCA IL COLLEGAMENTO AL DB
-            xhttp.send();   
-        }
+            xhttp.open("GET", "search.php?q=" + encodeURIComponent(str), true);
+            xhttp.send();
+        }*/
     </script>
 </body>
 </html>
