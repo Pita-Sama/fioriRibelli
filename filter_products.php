@@ -6,7 +6,6 @@ try {
     
     // Ottieni la categoria dalla richiesta POST
     $category = $_POST['category'] ?? 'all';
-    echo $category;
     // Prepara la query SQL
     if ($category === 'all') {
         $sql = "SELECT * FROM prodotti";
@@ -20,8 +19,6 @@ try {
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(":category", $category);
         $stmt -> execute();
-        
-        echo ($stmt -> rowCount());
     }
     
     // Genera l'HTML dei prodotti
@@ -46,4 +43,4 @@ try {
 }
 
 $pdo = null;
-?>
+?>
