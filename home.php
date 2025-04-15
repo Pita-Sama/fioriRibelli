@@ -701,6 +701,48 @@
             xhttp.open("GET", "search.php?q=" + encodeURIComponent(str), true);
             xhttp.send();
         }*/
+        // Funzione per filtrare i prodotti per categoria
+        function filterByCategory(category) {
+            // Mostra loader durante il caricamento (opzionale)
+            document.querySelector('.products-grid').innerHTML = '<p>Caricamento prodotti...</p>';
+
+            // Crea una richiesta AJAX
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'filter_products.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+            xhr.onload = function() {
+                if (this.status === 200) {
+                    document.querySelector('.products-grid').innerHTML = this.responseText;
+                } else {
+                    document.querySelector('.products-grid').innerHTML = '<p>Errore nel caricamento dei prodotti</p>';
+                }
+            };
+
+            // Invia la categoria selezionata
+            xhr.send('category=' + encodeURIComponent(category));
+        }
+
+        // Aggiungi event listener alle categorie
+        document.addEventListener('DOMContentLoaded', function() {
+            const categories = document.querySelectorAll('.category');
+            categories.forEach(category => {
+                category.addEventListener('click', function() {
+                    // Rimuovi la classe active da tutte le categorie
+                    categories.forEach(c => c.classList.remove('active'));
+
+                    // Aggiungi la classe active a quella selezionata
+                    this.classList.add('active');
+
+                    // Filtra i prodotti
+                    filterByCategory(this.textContent);
+                });
+            });
+
+            // Carica tutti i prodotti all'inizio
+            filterByCategory('all');
+        });
+
     </script>
 </body>
 </html>
