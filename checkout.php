@@ -1,71 +1,79 @@
 <?php
 session_start();
+require_once 'config.php';
+require_once 'functions.php';
 
-// Verifica se il carrello è vuoto
-if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
-    // Se non c'è un carrello in sessione, crealo dai cookie
-    $carrello = isset($_COOKIE['carrello']) ? explode('|', $_COOKIE['carrello']) : [];
+// Verifica che l'utente sia loggato
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php?redirect=checkout.php');
+    exit();
+}
+
+$user_id = $_SESSION['user_id'];
+
+// Recupera i dati del carrello
+if (!isset($_SESSION['carrello']) || empty($_SESSION['carrello'])) {
+    header('Location: carrello.php');
+    exit();
+}
+
+// Ottieni indirizzo dell'utente
+$query = "SELECT i.* FROM indirizzi i 
+          JOIN risiede r ON i.id = r.id_indirizzo 
+          WHERE r.id_user = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$indirizzi = $result->fetch_all(MYSQLI_ASSOC);
+
+// Calcola il totale dell'ordine
+$totale = 0;
+foreach ($_SESSION['carrello'] as $prodotto_id => $quantita) {
+    $query = "SELECT prezzo FROM prodotti WHERE id = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("i", $prodotto_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $prodotto = $result->fetch_assoc();
     
-    if (empty($carrello)) {
-        header("Location: cart.php");
-        exit;
-    }
+    $totale += $prodotto['prezzo'] * $quantita;
+}
+
+// Gestisci l'invio del form
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $indirizzo_id = $_POST['indirizzo_id'];
+    $metodo_pagamento = $_POST['metodo_pagamento'];
     
-    // Converti il formato del carrello
-    $_SESSION['cart'] = [];
-    foreach ($carrello as $item) {
-        $item_parts = explode(':', $item);
-        if (count($item_parts) > 1) {
-            $nome = $item_parts[0];
-            $prezzo = (float)$item_parts[1];
-            
-            // Aggiungi al carrello di sessione nel formato corretto per Stripe
-            $_SESSION['cart'][] = [
-                'name' => $nome,
-                'price' => $prezzo,
-                'quantity' => 1
-            ];
+    // Crea un nuovo ordine
+    $stato = "in corso";
+    $query = "INSERT INTO ordini (stato, id_user) VALUES (?, ?)";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("si", $stato, $user_id);
+    $stmt->execute();
+    $ordine_id = $conn->insert_id;
+    
+    // Aggiungi i prodotti all'ordine
+    foreach ($_SESSION['carrello'] as $prodotto_id => $quantita) {
+        for ($i = 0; $i < $quantita; $i++) {
+            $query = "INSERT INTO dettagli (id_ordine, id_prodotto) VALUES (?, ?)";
+            $stmt = $conn->prepare($query);
+            $stmt->bind_param("ii", $ordine_id, $prodotto_id);
+            $stmt->execute();
         }
     }
-}
-
-// Calcola il totale
-$totale_prezzo = 0;
-foreach ($_SESSION['cart'] as $item) {
-    $totale_prezzo += $item['price'] * $item['quantity'];
-}
-
-// Gestione del form di checkout
-$errore = '';
-$success = '';
-$nome = $email = $indirizzo = $citta = $cap = '';
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Validazione dei campi
-    $nome = trim($_POST['nome']);
-    $email = trim($_POST['email']);
-    $indirizzo = trim($_POST['indirizzo']);
-    $citta = trim($_POST['citta']);
-    $cap = trim($_POST['cap']);
     
-    if (empty($nome) || empty($email) || empty($indirizzo) || empty($citta) || empty($cap)) {
-        $errore = 'Tutti i campi sono obbligatori';
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errore = 'Email non valida';
+    // Memorizza l'ID dell'ordine nella sessione per la pagina di pagamento
+    $_SESSION['ordine_id'] = $ordine_id;
+    $_SESSION['importo_totale'] = $totale;
+    
+    // Reindirizza alla pagina di pagamento appropriata
+    if ($metodo_pagamento == 'paypal') {
+        header('Location: paypal_payment.php');
     } else {
-        // Salva i dati di spedizione in sessione
-        $_SESSION['shipping'] = [
-            'nome' => $nome,
-            'email' => $email,
-            'indirizzo' => $indirizzo,
-            'citta' => $citta,
-            'cap' => $cap
-        ];
-        
-        // Reindirizza alla pagina di pagamento
-        header("Location: payment_process.php");
-        exit;
+        header('Location: card_payment.php');
     }
+    exit();
 }
 ?>
 
@@ -74,239 +82,87 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checkout - Fiori Ribelli</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            background-color: #f9f9f9;
-        }
-
-        header {
-            background-color: white;
-            padding: 15px 30px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
-            z-index: 100;
-        }
-
-        .checkout-container {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 20px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-        }
-
-        .checkout-form {
-            flex: 1;
-            min-width: 300px;
-            background-color: white;
-            border-radius: 8px;
-            padding: 30px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .order-summary {
-            width: 350px;
-            background-color: white;
-            border-radius: 8px;
-            padding: 30px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            align-self: flex-start;
-        }
-
-        h2 {
-            margin-bottom: 20px;
-            color: #333;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #555;
-        }
-
-        input[type="text"],
-        input[type="email"] {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-
-        .error-message {
-            color: #e74c3c;
-            margin-top: 5px;
-            font-size: 14px;
-        }
-
-        .success-message {
-            color: #27ae60;
-            margin-top: 5px;
-            font-size: 14px;
-        }
-
-        .cart-items {
-            margin-bottom: 20px;
-        }
-
-        .cart-item {
-            display: flex;
-            margin-bottom: 10px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .cart-item-name {
-            flex: 1;
-        }
-
-        .cart-item-price {
-            font-weight: bold;
-            color: #27ae60;
-        }
-
-        .order-total {
-            font-size: 18px;
-            font-weight: bold;
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 2px solid #eee;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .checkout-btn {
-            background-color: #27ae60;
-            color: white;
-            border: none;
-            padding: 15px;
-            width: 100%;
-            border-radius: 4px;
-            font-size: 16px;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: background-color 0.3s;
-        }
-
-        .checkout-btn:hover {
-            background-color: #2ecc71;
-        }
-
-        footer {
-            background-color: #2c3e50;
-            color: white;
-            padding: 20px;
-            text-align: center;
-            margin-top: auto;
-        }
-
-        @media (max-width: 768px) {
-            .checkout-container {
-                flex-direction: column;
-            }
-            
-            .order-summary {
-                width: 100%;
-            }
-        }
-    </style>
+    <title>Checkout</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <header>
-        <h1>Fiori Ribelli</h1>
-        <a href="cart.php" style="color: #27ae60; text-decoration: none;">Torna al carrello</a>
-    </header>
-
-    <div class="checkout-container">
-        <div class="checkout-form">
-            <h2>Dati di spedizione</h2>
-            
-            <?php if ($errore): ?>
-                <div class="error-message"><?php echo $errore; ?></div>
-            <?php endif; ?>
-            
-            <?php if ($success): ?>
-                <div class="success-message"><?php echo $success; ?></div>
-            <?php endif; ?>
-            
-            <form method="post" action="checkout.php">
-                <div class="form-group">
-                    <label for="nome">Nome completo</label>
-                    <input type="text" id="nome" name="nome" value="<?php echo htmlspecialchars($nome); ?>" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($email); ?>" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="indirizzo">Indirizzo</label>
-                    <input type="text" id="indirizzo" name="indirizzo" value="<?php echo htmlspecialchars($indirizzo); ?>" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="citta">Città</label>
-                    <input type="text" id="citta" name="citta" value="<?php echo htmlspecialchars($citta); ?>" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="cap">CAP</label>
-                    <input type="text" id="cap" name="cap" value="<?php echo htmlspecialchars($cap); ?>" required>
-                </div>
-                
-                <button type="submit" class="checkout-btn">Procedi al pagamento</button>
-            </form>
+    <?php include('header.php'); ?>
+    
+    <div class="container">
+        <h1>Checkout</h1>
+        
+        <div class="riepilogo-ordine">
+            <h2>Riepilogo Ordine</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Prodotto</th>
+                        <th>Quantità</th>
+                        <th>Prezzo</th>
+                        <th>Totale</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($_SESSION['carrello'] as $prodotto_id => $quantita): ?>
+                        <?php
+                        $query = "SELECT * FROM prodotti WHERE id = ?";
+                        $stmt = $conn->prepare($query);
+                        $stmt->bind_param("i", $prodotto_id);
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+                        $prodotto = $result->fetch_assoc();
+                        $subtotale = $prodotto['prezzo'] * $quantita;
+                        ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($prodotto['nome']); ?></td>
+                            <td><?php echo $quantita; ?></td>
+                            <td>€<?php echo number_format($prodotto['prezzo'], 2); ?></td>
+                            <td>€<?php echo number_format($subtotale, 2); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3">Totale</td>
+                        <td>€<?php echo number_format($totale, 2); ?></td>
+                    </tr>
+                </tfoot>
+            </table>
         </div>
         
-        <div class="order-summary">
-            <h2>Riepilogo ordine</h2>
-            
-            <div class="cart-items">
-                <?php foreach ($_SESSION['cart'] as $item): ?>
-                    <div class="cart-item">
-                        <div class="cart-item-name">
-                            <?php echo htmlspecialchars($item['name']); ?> 
-                            <?php if ($item['quantity'] > 1): ?>
-                                (x<?php echo $item['quantity']; ?>)
-                            <?php endif; ?>
-                        </div>
-                        <div class="cart-item-price">
-                            €<?php echo number_format($item['price'] * $item['quantity'], 2); ?>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
+        <form action="checkout.php" method="post">
+            <div class="indirizzo-spedizione">
+                <h2>Indirizzo di Spedizione</h2>
+                <?php if (empty($indirizzi)): ?>
+                    <p>Non hai indirizzi salvati. <a href="aggiungi_indirizzo.php">Aggiungi un indirizzo</a></p>
+                <?php else: ?>
+                    <select name="indirizzo_id" required>
+                        <?php foreach ($indirizzi as $indirizzo): ?>
+                            <option value="<?php echo $indirizzo['id']; ?>">
+                                <?php echo htmlspecialchars($indirizzo['via'] . ' ' . $indirizzo['numeroCivico'] . ', ' . $indirizzo['citta'] . ' ' . $indirizzo['cap']); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                    <a href="aggiungi_indirizzo.php">Aggiungi un nuovo indirizzo</a>
+                <?php endif; ?>
             </div>
             
-            <div class="order-total">
-                <span>Totale</span>
-                <span>€<?php echo number_format($totale_prezzo, 2); ?></span>
+            <div class="metodo-pagamento">
+                <h2>Metodo di Pagamento</h2>
+                <div>
+                    <input type="radio" name="metodo_pagamento" id="paypal" value="paypal" required>
+                    <label for="paypal">PayPal</label>
+                </div>
+                <div>
+                    <input type="radio" name="metodo_pagamento" id="carta" value="carta">
+                    <label for="carta">Carta di Credito</label>
+                </div>
             </div>
-        </div>
+            
+            <button type="submit" class="btn-procedi">Procedi al Pagamento</button>
+        </form>
     </div>
-
-    <footer>
-        <p>&copy; 2025 Fiori Ribelli - Tutti i diritti riservati</p>
-    </footer>
+    
+    <?php include('footer.php'); ?>
 </body>
 </html>
