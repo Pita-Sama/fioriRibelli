@@ -19,9 +19,21 @@
             background-color: #f9f9f9;
         }
 
+        header {
+            background-color: white;
+            padding: 15px 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 100;
+        }
+
+
         .menu-toggle {
             position: fixed;
-            top: 20px;
+            top: 10px;
             left: 20px;
             z-index: 1000;
             cursor: pointer;
@@ -78,6 +90,7 @@
 
         .sidebar-categories {
             list-style: none;
+            margin-top: 20px; /* Aggiunto per spostare il menu più in basso */
         }
 
         .sidebar-category {
@@ -89,8 +102,6 @@
         .sidebar-category:hover {
             color: #27ae60;
         }
-
-        /* Overlay per quando il menu è aperto */
         .overlay {
             position: fixed;
             top: 0;
@@ -214,6 +225,16 @@
                 margin-top: 60px;
             }
         }
+
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin-top: auto;
+            position: relative;
+            z-index: 100;
+        }
     </style>
 </head>
 <body>
@@ -226,7 +247,6 @@
 
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <h3>Menu</h3>
         </div>
         <ul class="sidebar-categories">
             <li class="sidebar-category" onclick="window.location.href='progetto.php'">Il Progetto</li>
