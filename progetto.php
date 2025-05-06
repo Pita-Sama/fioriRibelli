@@ -33,7 +33,7 @@
 
         .menu-toggle {
             position: fixed;
-            top: 10px;
+            top: 6px;
             left: 20px;
             z-index: 1000;
             cursor: pointer;
@@ -90,7 +90,7 @@
 
         .sidebar-categories {
             list-style: none;
-            margin-top: 20px; /* Aggiunto per spostare il menu più in basso */
+            margin-top: 10px; /* Aggiunto per spostare il menu più in basso */
         }
 
         .sidebar-category {
@@ -125,6 +125,7 @@
             gap: 20px;
             color: #2c3e50;
             font-size: 14px;
+            margin-left: 50px;
         }
 
         .contact-info span {
