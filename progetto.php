@@ -30,7 +30,27 @@
             z-index: 100;
         }
 
-
+		#tidio-chat {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+        
+        /* pulsante chat nel menu */
+        .sidebar-category.chat-btn {
+            background-color: #27ae60;
+            color: white;
+            padding: 12px;
+            border-radius: 4px;
+            margin-top: 10px;
+            text-align: center;
+        }
+        
+        .sidebar-category.chat-btn:hover {
+            background-color: #2ecc71;
+        }
+        
         .menu-toggle {
             position: fixed;
             top: 6px;
@@ -237,6 +257,7 @@
             z-index: 100;
         }
     </style>
+    <script src="//code.tidio.co/irmsdqwk2kh1zlsefyaukkjxrjmseocn.js" async></script>
 </head>
 <body>
 
@@ -372,6 +393,23 @@
                     }, 500);
                 });
         }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Controlla se Tidio è caricato
+            if(typeof TidioChatApi !== 'undefined') {
+                // Mostra messaggio automatico quando la chat si apre
+                TidioChatApi.on('chatOpen', function() {
+                    TidioChatApi.sendMessage("Benvenuto da Fiori Ribelli! 🌸 Come possiamo aiutarti oggi? Puoi chiederci informazioni su:\n- Disponibilità fiori\n- Orari di apertura\n- Consigli per la cura delle piante");
+                });
+                
+                // Mostra messaggio dopo 30 secondi
+                setTimeout(function() {
+                    if(TidioChatApi.isChatClosed()) {
+                        TidioChatApi.messageFromOperator("Ciao! Hai domande sui nostri fiori? Siamo qui per aiutarti! 🌺");
+                    }
+                }, 30000);
+            }
+        });
     </script>
 </body>
 </html>
