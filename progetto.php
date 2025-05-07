@@ -257,7 +257,6 @@
             z-index: 100;
         }
     </style>
-    <script src="//code.tidio.co/irmsdqwk2kh1zlsefyaukkjxrjmseocn.js" async></script>
 </head>
 <body>
 
@@ -411,5 +410,6 @@
             }
         });
     </script>
+	<script src="//code.tidio.co/irmsdqwk2kh1zlsefyaukkjxrjmseocn.js"></script>
 </body>
 </html>
