@@ -410,6 +410,6 @@
             }
         });
     </script>
-	<script src="//code.tidio.co/irmsdqwk2kh1zlsefyaukkjxrjmseocn.js"></script>
+	<script src="//code.tidio.co/irmsdqwk2kh1zlsefyaukkjxrjmseocn.js" async></script>
 </body>
 </html>
