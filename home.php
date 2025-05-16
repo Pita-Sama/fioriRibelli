@@ -148,6 +148,26 @@ require_once("visualizzazione_prodotti.php");
             
             // Mostra feedback visivo
             showAddToCartFeedback(name);
+
+            const xhttp = new XMLHttpRequest();
+            const path = "php/addProduct.php";
+            const parameter = "?name=" + name; 
+            
+            xhttp.open("GET", path + parameter);
+            
+            xhttp.onreadystatechange = function () {
+              var DONE = 4; // stato 4 indica che la richiesta è stata effettuata.
+              var OK = 200; // se la HTTP response ha stato 200 vuol dire che ha avuto successo.
+              if (xhttp.readyState === DONE) {
+                if (xhttp.status === OK) {
+                  console.log(xhttp.responseText); // Questo è il corpo della risposta HTTP
+                } else {
+                  console.log('Error: ' + xhttp.status); // Lo stato della HTTP response.
+                }
+              }
+            }
+            
+            xhttp.send();
         }
 
         // Funzione per mostrare feedback quando si aggiunge un prodotto
