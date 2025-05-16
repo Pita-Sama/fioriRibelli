@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sito con Banner Cookie</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .cookie-banner {
+            background-color: #ffffff;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            width: 90%;
+            display: flex;
+            gap: 15px;
+        }
+        
+        .cookie-icon {
+            width: 40px;
+            height: 40px;
+            margin-top: 5px;
+        }
+        
+        .cookie-content {
+            flex: 1;
+        }
+        
+        .cookie-banner h3 {
+            margin: 0 0 10px 0;
+            color: #333;
+            font-size: 18px;
+        }
+        
+        .cookie-banner p {
+            margin: 0 0 20px 0;
+            color: #333;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+        
+        .cookie-banner a {
+            color: #000000;
+            text-decoration: underline;
+            font-weight: normal;
+        }
+        
+        .cookie-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .cookie-btn {
+            padding: 10px 20px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold; /* Testo in grassetto */
+            transition: all 0.3s ease;
+        }
+        
+        .cookie-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .reject-btn {
+            background-color: white;
+            color: #333;
+        }
+        
+        .customize-btn {
+            background-color: white;
+            color: #333;
+        }
+        
+        .accept-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+        }
+        
+        .accept-btn:hover {
+            background-color: #45a049;
+        }
+        
+        .lyro-ai {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <!-- Contenuto principale (bloccato finché non si accettano i cookie) -->
+    <div class="content">
+        <!-- Il tuo contenuto normale andrebbe qui -->
+        <h1>Benvenuto sul nostro sito</h1>
+        <p>Questo contenuto è bloccato finché non accetti i cookie.</p>
+    </div>
+    
+    <!-- Overlay e Banner Cookie -->
+    <div class="overlay" id="cookieOverlay">
+        <div class="cookie-banner">
+            <!-- Icona cookie -->
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cGF0aCBmaWxsPSIjZmY5YzE0IiBkPSJNNDU3LjQgODIuNEM0MDQuMiA0My4yIDMzNC4xIDE2IDI1NiAxNkMxMTkuNyAxNiA4LjcgMTI3LjcgOC43IDI2NHMxMTEgMjQ4IDI0Ny4zIDI0OGM3OC4xIDAgMTQ4LjItMjcuMiAyMDEuNC02Ni40YzMuNS0zLjEgMy44LTguNi41LTEyTDM4NiA4My45Yy0yLjktMy4xLTguNS0zLjQtMTEuOS0uNWMtMjYuOSAyMy4zLTYwLjIgMzYuMS05Ni4yIDM2LjFjLTY2LjkgMC0xMjEuMS01NC4yLTEyMS4xLTEyMS4xYzAtMzYuMSAxMi44LTY5LjQgMzYuMS05Ni4yYzIuOS0zLjQgMi42LTktLjUtMTEuOUw0NjkuNCA4MmMtMy40LTMuMy04LjktMy0xMiAuNHoiLz48cGF0aCBmaWxsPSIjZTY3ODAwIiBkPSJNMjU2IDE2Yy03OC4xIDAtMTQ4LjIgMjcuMi0yMDEuNCA2Ni40Yy0zLjUgMy4xLTMuOCA4LjYtLjUgMTJsNzMuMyA3My4zYzIuOSAzLjEgOC41IDMuNCAxMS45LjVjMjYuOS0yMy4zIDYwLjItMzYuMSA5Ni4yLTM2LjFjNjYuOSAwIDEyMS4xIDU0LjIgMTIxLjEgMTIxLjFjMCAzNi4xLTEyLjggNjkuNC0zNi4xIDk2LjJjLTIuOSAzLjQtMi42IDkgLjUgMTEuOWw3My4zIDczLjNjMy4zIDMuNCA4LjggMy4xIDEyLS40YzUzLjItMzkuMiA4My40LTEwOS4zIDgzLjQtMTg3LjRDNTAzLjMgMTI3LjcgMzkyLjMgMTYgMjU2IDE2eiIvPjwvc3ZnPg==" alt="Cookie" class="cookie-icon">
+            
+            <div class="cookie-content">
+                <h3>Questo sito utilizza i cookie</h3>
+                <p>Utilizziamo i cookie per garantire il corretto funzionamento del nostro sito web, migliorare la tua esperienza, monitorare le nostre prestazioni e per scopi pubblicitari. Per saperne di più su come utilizziamo i cookie, consulta la nostra <a href="#">Privacy Policy</a>. Cliccando "Accetta tutto", ci dai il consenso per utilizzare tutti i cookie. Puoi selezionare quali cookie utilizzare e revocare il tuo consenso in qualsiasi momento in "Personalizza cookie".</p>
+                <div class="cookie-buttons">
+                    <button class="cookie-btn reject-btn" id="rejectBtn">Rifiuta tutto</button>
+                    <button class="cookie-btn customize-btn" id="customizeBtn">Personalizza cookie</button>
+                    <button class="cookie-btn accept-btn" id="acceptBtn">Accetta tutto</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Controlla se l'utente è registrato (sostituisci con la tua logica)
+            const utenteRegistrato = false;
+            
+            // Controlla se il consenso ai cookie è già stato dato
+            const consensoCookie = localStorage.getItem('consensoCookie');
+            
+            // Mostra il banner solo se l'utente non è registrato e non ha ancora dato il consenso
+            if (!utenteRegistrato && !consensoCookie) {
+                const cookieOverlay = document.getElementById('cookieOverlay');
+                cookieOverlay.style.display = 'flex';
+                
+                // Gestione dei click sui pulsanti
+                document.getElementById('acceptBtn').addEventListener('click', function() {
+                    localStorage.setItem('consensoCookie', 'accettato');
+                    cookieOverlay.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                });
+                
+                document.getElementById('rejectBtn').addEventListener('click', function() {
+                    localStorage.setItem('consensoCookie', 'rifiutato');
+                    cookieOverlay.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                });
+                
+                document.getElementById('customizeBtn').addEventListener('click', function() {
+                    // Qui implementeresti la logica di personalizzazione
+                    alert('Funzionalità di personalizzazione cookie verrebbe implementata qui');
+                });
+            } else {
+                document.getElementById('cookieOverlay').style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+    </script>
+</body>
+</html>
