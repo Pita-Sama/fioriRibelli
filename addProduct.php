@@ -1,6 +1,6 @@
 <?php
 	if(isset($_GET['name'])){
-    	require_once('../collegamento_db.php');
+    	require_once('collegamento_db.php');
         $nome_prodotto = $_GET["name"];
     	$pdo = pdoDB();
         
