@@ -30,7 +30,7 @@
             z-index: 100;
         }
 
-		#tidio-chat {
+        #tidio-chat {
             position: fixed;
             bottom: 20px;
             right: 20px;
@@ -50,97 +50,8 @@
         .sidebar-category.chat-btn:hover {
             background-color: #2ecc71;
         }
-        
-        .menu-toggle {
-            position: fixed;
-            top: 6px;
-            left: 20px;
-            z-index: 1000;
-            cursor: pointer;
-            background: white;
-            padding: 10px;
-            border-radius: 4px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
 
-        .menu-toggle .bar {
-            display: block;
-            width: 25px;
-            height: 3px;
-            background-color: #333;
-            margin: 5px 0;
-            transition: all 0.3s ease;
-        }
-
-        .menu-toggle.active .bar:nth-child(1) {
-            transform: translateY(8px) rotate(45deg);
-        }
-
-        .menu-toggle.active .bar:nth-child(2) {
-            opacity: 0;
-        }
-
-        .menu-toggle.active .bar:nth-child(3) {
-            transform: translateY(-8px) rotate(-45deg);
-        }
-
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: -300px;
-            width: 300px;
-            height: 100%;
-            background-color: white;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-            transition: left 0.3s ease;
-            z-index: 999;
-            overflow-y: auto;
-            padding: 20px;
-        }
-
-        .sidebar.active {
-            left: 0;
-        }
-
-        .sidebar-header {
-            padding: 15px 0;
-            border-bottom: 1px solid #eee;
-            margin-bottom: 15px;
-        }
-
-        .sidebar-categories {
-            list-style: none;
-            margin-top: 10px; /* Aggiunto per spostare il menu più in basso */
-        }
-
-        .sidebar-category {
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
-            cursor: pointer;
-        }
-
-        .sidebar-category:hover {
-            color: #27ae60;
-        }
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            z-index: 998;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-      .contact-info {
+        .contact-info {
             display: flex;
             gap: 20px;
             color: #2c3e50;
@@ -260,24 +171,7 @@
 </head>
 <body>
 
-    <div class="menu-toggle" onclick="toggleSidebar()">
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-    </div>
-
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-        </div>
-        <ul class="sidebar-categories">
-            <li class="sidebar-category" onclick="window.location.href='progetto.php'">Il Progetto</li>
-            <li class="sidebar-category" onclick="window.location.href='collaborazioni.php'">Collaborazioni</li>
-            <li class="sidebar-category" onclick="window.location.href='offertaFondi.php'">Offerta fondi</li>
-            <li class="sidebar-category" onclick="window.location.href='offertePremi.php'">Offerte e premi</li>
-        </ul>
-    </div>
-
-    <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+    <?php require_once 'menu.php'; ?>
 
     <header>
         <div class="contact-info">
@@ -299,6 +193,7 @@
             </div>
             
             <div class="project-content">
+                <div class="project-content">
                 <h2>Le Origini</h2>
                 <p>Nel momento in cui il mondo era fermo, il tempo sospeso, è nata l'idea di dare vita ad un luogo di fiori, profumi, colori, un luogo nella natura, in cui le persone di ogni età potessero venire a rilassarsi, a rigenerarsi. Una seconda vita per noi, che abbiamo scelto di lasciare due lavori a tempo indeterminato che avevamo portato avanti per tanti anni, ma che iniziavano a starci un po' stretti, per provare a vivere nuovi sogni.</p>
                 
@@ -370,17 +265,7 @@
     </footer>
   
     <script>
-        // Funzione per aprire/chiudere il menu laterale
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const menuToggle = document.querySelector('.menu-toggle');
-            const overlay = document.getElementById('overlay');
-            
-            sidebar.classList.toggle('active');
-            menuToggle.classList.toggle('active');
-            overlay.classList.toggle('active');
-        }
-       // Funzione per copiare testo
+        // Funzione per copiare testo
         function copyToClipboard(element) {
             const text = element.textContent;
             navigator.clipboard.writeText(text)
@@ -410,6 +295,6 @@
             }
         });
     </script>
-	<script src="//code.tidio.co/irmsdqwk2kh1zlsefyaukkjxrjmseocn.js" async></script>
+    <script src="//code.tidio.co/irmsdqwk2kh1zlsefyaukkjxrjmseocn.js" async></script>
 </body>
 </html>
