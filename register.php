@@ -39,7 +39,7 @@ if(isset($_POST['Submit'])){
             $password = password_hash($password . $random_salt, PASSWORD_DEFAULT);
 
 
-            $query = "INSERT INTO users(username, email, pass, salt,punti,verifica) VALUES(:username, :email, :password, :random_salt,:punti,:verifica)";
+            $query = "INSERT INTO users(username, email, pass, salt,punti,verifica) VALUES(:username, :email, :password, :salt,:punti,:verifica)";
             $newUtente = $pdo->prepare($query);
             $newUtente->bindParam(':username', $username);
             $newUtente->bindParam(':email', $email);
