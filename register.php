@@ -44,7 +44,7 @@ if(isset($_POST['Submit'])){
             $newUtente->bindParam(':username', $username);
             $newUtente->bindParam(':email', $email);
             $newUtente->bindParam(':password', $password);
-            $newUtente->bindParam(':random_salt', $random_salt);
+            $newUtente->bindParam(':salt', $random_salt);
             $newUtente->bindParam(':punti', $punti);
             $newUtente->bindParam(':verifica', $verifica);
             
