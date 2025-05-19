@@ -10,8 +10,8 @@ if (!isset($_GET['payment_intent'])) {
 
 $payment_intent_id = $_GET['payment_intent'];
 
-// Configura Stripe API
-\Stripe\Stripe::setApiKey('sk_test_YOUR_SECRET_KEY');
+// Chiave privata
+\Stripe\Stripe::setApiKey('sk_test_51RQR0lRrDuxDKDzorVsUY8EDHiTXoCFatWVKBN2dkOPtyjYuBDcssan4NVC2s1N8YNogpdFMDcdnENtG6npWdlnH00gTiLyBz4');
 
 try {
     // Recupera i dettagli del pagamento
