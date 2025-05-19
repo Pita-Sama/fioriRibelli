@@ -15,7 +15,7 @@ foreach ($_SESSION['cart'] as $item) {
 }
 
 // Configurazione Stripe API
-\Stripe\Stripe::setApiKey('sk_test_YOUR_SECRET_KEY'); // Sostituisci con la tua chiave API segreta
+\Stripe\Stripe::setApiKey('sk_test_51RQR0lRrDuxDKDzorVsUY8EDHiTXoCFatWVKBN2dkOPtyjYuBDcssan4NVC2s1N8YNogpdFMDcdnENtG6npWdlnH00gTiLyBz4'); // Chiave privata per collegarsi a Stripe
 
 // Ottieni i dati di spedizione
 $shipping = $_SESSION['shipping'];
@@ -209,7 +209,7 @@ try {
 
     <script>
         // Crea un'istanza di Stripe
-        var stripe = Stripe('pk_test_YOUR_PUBLISHABLE_KEY'); // Sostituisci con la tua chiave API pubblica
+        var stripe = Stripe('pk_test_51RQR0lRrDuxDKDzoY7m6vFyrv7G60I2pudq7Coc0q9qzEdMj0unlcNYYm7bNoBOBD2cVwwDrx6u6Rp0no07IuPf5006TQ4u3nW'); // chiave API pubblica
         var elements = stripe.elements();
         
         // Stile per il form di pagamento
@@ -250,7 +250,7 @@ try {
         var buttonText = document.getElementById('button-text');
         
         form.addEventListener('submit', function(event) {
-            event.preventDefault();
+            event.preventDefault();// utilizzo questa funzione per gestire il pagamento in modo asincrono (non facendo ricaricare la pagina)
             
             // Disabilita il pulsante e mostra lo spinner
             submitButton.disabled = true;
