@@ -63,7 +63,7 @@ CREATE TABLE users (
   salt char(128) NOT NULL,
   verifica boolean NOT NULL,
   punti int UNIQUE
-  CHECK (punti > 0);
+  CHECK (punti > 0)
 );
 
 CREATE TABLE ordini (
