@@ -12,7 +12,7 @@
 	        $mailHeaders .= "MIME-Version: 1.0\r\n";
 	        $mailHeaders .= "Content-Type: text/html; charset=UTF-8\r\n";
 	
-	        mail($mailDest,$mailOgg,$mailMess,$mailHeaders));
+	        mail($mailDest,$mailOgg,$mailMess,$mailHeaders);
 	}
 
 ?>
