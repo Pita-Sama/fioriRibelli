@@ -66,13 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Memorizza l'ID dell'ordine nella sessione per la pagina di pagamento
     $_SESSION['ordine_id'] = $ordine_id;
     $_SESSION['importo_totale'] = $totale;
-    
-    // Reindirizza alla pagina di pagamento appropriata
-    if ($metodo_pagamento == 'paypal') {
-        header('Location: paypal_payment.php');
-    } else {
-        header('Location: card_payment.php');
-    }
+    header('Location: card_payment.php');
     exit();
 }
 ?>
