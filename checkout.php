@@ -1,7 +1,6 @@
 <?php
 session_start();
-require_once 'config.php';
-require_once 'functions.php';
+require_once 'collegamento_db.php';
 
 // Verifica che l'utente sia loggato
 if (!isset($_SESSION['user_id'])) {
