@@ -27,7 +27,7 @@ if(isset($_POST['submit'])){
         $stm -> execute();
         if($stm -> rowCount() > 0){
         	$record = $stm -> fetch(PDO::FETCH_ASSOC);
-            if(!$record["verificato"])
+            if(!$record["verifica"])
             	$error= "Email non verificata";
             
             elseif(password_verify($password . $record["salt"], $record["pass"])){
