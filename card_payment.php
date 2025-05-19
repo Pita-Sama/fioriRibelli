@@ -1,7 +1,6 @@
 <?php
 session_start();
-require_once 'config.php';
-require_once 'functions.php';
+require_once 'collegamento_db.php';
 
 if (!isset($_SESSION['user_id']) || !isset($_SESSION['ordine_id']) || !isset($_SESSION['importo_totale'])) {
     header('Location: carrello.php');
