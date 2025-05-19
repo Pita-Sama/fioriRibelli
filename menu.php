@@ -8,9 +8,10 @@
     <div class="sidebar-header">
     </div>
     <ul class="sidebar-categories">
+    	<li class="sidebar-category" onclick="window.location.href='home.php'">Home</li>
         <li class="sidebar-category" onclick="window.location.href='progetto.php'">Il Progetto</li>
         <li class="sidebar-category" onclick="window.location.href='collaborazioni.php'">Collaborazioni</li>
-        <li class="sidebar-category" onclick="window.location.href='offertaFondi.php'">Offerta fondi</li>
+        <li class="sidebar-category" onclick="window.location.href='raccoltaFondi.php'">Offerta fondi</li>
         <li class="sidebar-category" onclick="window.location.href='offertePremi.php'">Offerte e premi</li>
     </ul>
 </div>
