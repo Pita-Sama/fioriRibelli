@@ -11,8 +11,14 @@ $success = '';
 
 if(isset($_POST['Submit'])){
     require_once 'collegamento_db.php';
+    require_once 'getUtente.php';
+    
+    
     $pdo = pdoDB();
-   
+    $punti = 0;
+    $verifica = 0;
+    
+    
     $username = trim($_POST['user']);
     $email = trim($_POST['email']);
     $password = trim($_POST['pass']);
@@ -23,24 +29,37 @@ if(isset($_POST['Submit'])){
     } elseif(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = 'Inserisci un indirizzo email valido!';
     } else {
-        $random_salt = bin2hex(random_bytes(16));
-        $password = password_hash($password . $random_salt, PASSWORD_DEFAULT);
+        $utente = getUtente($pdo,$username,$email);
+ 
+        if($utente -> rowCount() > 0)
+        	$error = "email o username già registrati!";
+    	
+    	else{
+        	$random_salt = bin2hex(random_bytes(16));
+            $password = password_hash($password . $random_salt, PASSWORD_DEFAULT);
 
-        $query = "INSERT INTO users(username, email, pass, salt) VALUES(:username, :email, :password, :random_salt)";
-        $stm = $pdo->prepare($query);
-        $stm->bindParam(':username', $username);
-        $stm->bindParam(':email', $email);
-        $stm->bindParam(':password', $password);
-        $stm->bindParam(':random_salt', $random_salt);
-       
-        if($stm->execute()){
-        echo "entrato";
-            //$_SESSION['users'] = $user;
-            //$_SESSION['start_time'] = time();
-            header("Location: login.php");
-            exit;
-        } else {
-            $error = 'Errore durante la registrazione. Riprova più tardi.';
+
+            $query = "INSERT INTO users(username, email, pass, salt,punti,verifica) VALUES(:username, :email, :password, :random_salt,:punti,:verifica)";
+            $newUtente = $pdo->prepare($query);
+            $newUtente->bindParam(':username', $username);
+            $newUtente->bindParam(':email', $email);
+            $newUtente->bindParam(':password', $password);
+            $newUtente->bindParam(':random_salt', $random_salt);
+            $newUtente->bindParam(':punti', $punti);
+            $newUtente->bindParam(':verifica', $verifica);
+            
+            if($newUtente->execute()){
+            	require_once('mail.php');
+                
+                $utente = getUtente($pdo,$username,$email);
+                $utente = $utente -> fetch();
+                
+                invioMail($email, $username, $utente['id']);
+                header("Location:login.php");
+                exit();
+            } else{
+            	$error = "Errore durante la registrazione. Riprova più tardi";
+            }
         }
     }
 }
@@ -51,149 +70,7 @@ if(isset($_POST['Submit'])){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrazione - Fiori Ribelli</title>
-    <style>
-        :root {
-            --primary-color: #27ae60;
-            --primary-hover: #2ecc71;
-            --error-color: #e74c3c;
-            --text-color: #333;
-            --light-gray: #f5f5f5;
-            --border-color: #ddd;
-        }
-       
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-       
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--light-gray);
-            color: var(--text-color);
-            line-height: 1.6;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-            background-image: url('sfondo-fiori.jpg');
-            background-size: cover;
-            background-position: center;
-            background-blend-mode: overlay;
-        }
-       
-        .form {
-            background-color: rgba(255, 255, 255, 0.95);
-            padding: 2.5rem;
-            border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 450px;
-            transition: transform 0.3s ease;
-            backdrop-filter: blur(5px);
-        }
-       
-        .form:hover {
-            transform: translateY(-5px);
-        }
-       
-        h1 {
-            color: var(--primary-color);
-            text-align: center;
-            margin-bottom: 2rem;
-            font-size: 1.8rem;
-            font-weight: 600;
-        }
-       
-        .input-group {
-            margin-bottom: 1.5rem;
-            position: relative;
-        }
-       
-        input[type="text"],
-        input[type="email"],
-        input[type="password"] {
-            width: 100%;
-            padding: 0.9rem;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            font-size: 1rem;
-            transition: all 0.3s;
-        }
-       
-        input:focus {
-            border-color: var(--primary-color);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.2);
-        }
-       
-        .toggle-password {
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            width: 20px;
-            height: 20px;
-        }
-       
-        button[type="submit"] {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 0.9rem;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 1rem;
-            width: 100%;
-            transition: all 0.3s;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 1rem;
-        }
-       
-        button[type="submit"]:hover {
-            background-color: var(--primary-hover);
-            transform: translateY(-2px);
-        }
-       
-        #reindirizza {
-            display: block;
-            text-align: center;
-            color: var(--primary-color);
-            text-decoration: none;
-            font-size: 0.9rem;
-            margin-top: 1.5rem;
-            transition: color 0.3s;
-        }
-       
-        #reindirizza:hover {
-            color: var(--primary-hover);
-            text-decoration: underline;
-        }
-       
-        .error {
-            color: var(--error-color);
-            margin-bottom: 1.5rem;
-            text-align: center;
-            padding: 0.8rem;
-            background-color: rgba(231, 76, 60, 0.1);
-            border-radius: 6px;
-            font-size: 0.9rem;
-        }
-       
-        @media (max-width: 576px) {
-            .form {
-                padding: 1.8rem;
-            }
-           
-            h1 {
-                font-size: 1.5rem;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="css/register.css">
 </head>
 <body>
     <div class="form">
@@ -224,7 +101,7 @@ if(isset($_POST['Submit'])){
     </div>
 
     <script>
-        document.getElementById('togglePassword').addEventListener('click', function() {
+        	document.getElementById('togglePassword').addEventListener('click', function() {
             const passwordField = document.getElementById('passwordField');
             const toggleIcon = this;
            
