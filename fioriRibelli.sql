@@ -61,7 +61,7 @@ CREATE TABLE users (
   email varchar(100) NOT NULL UNIQUE,
   pass char(128) NOT NULL,
   salt char(128) NOT NULL,
-  verifica varchar(3) NOT NULL
+  verifica boolean NOT NULL,
   punti int UNIQUE
   CHECK (punti > 0);
 );
