@@ -22,17 +22,17 @@ INSERT INTO prodotti (nome, immagine, descrizione, prezzo, id_categoria) VALUES
 
 
 INSERT INTO prodotti (nome, immagine, descrizione, prezzo, id_categoria) VALUES 
-('Supporto fiori', 'supporto_fiori.jpg', 'Elegante supporto in metallo per vasi da fiori, altezza 120cm', 45.99, 4),
-('Vaso gatto', 'vaso_gatto.jpg', 'Vaso decorativo a forma di gatto, ceramica dipinta a mano', 32.99, 4),
-('Vaso vintage', 'vaso_vintage.jpg', 'Vaso in stile retrò con motivi floreali, capacità 5 litri', 28.75, 4),
-('Uccelli in vetro', 'uccelli_vetro.jpg', 'Decorazione da giardino con uccellini in vetro', 39.99, 4),
-('Statua donna', 'statua_donna.jpg', 'Statua decorativa in resina raffigurante figura femminile', 259.99, 4),
-('Passerella', 'passerella.jpg', 'Passerella in legno per giardino, lunghezza 180cm', 65.20, 4),
-('Rana con violino', 'rana_violino.jpg', 'Simpatica scultura di rana che suona il violino', 9.99, 4),
-('Obelisco per rampicanti', 'obelisco.jpg', 'Struttura in metallo per piante rampicanti, altezza 150cm', 39.99, 4),
-('Lampade vintage', 'lampade_vintage.jpg', 'Set di 2 lampade da giardino in stile vintage', 29.99, 4),
-('Gnomo', 'gnomo.jpg', 'Classico gnomo da giardino in ceramica dipinta', 19.99, 4),
-('Galline', 'galline.jpg', 'Coppia di galline decorative in metallo', 31.99, 4),
-('Dondolo', 'dondolo.jpg', 'Dondolo da giardino in legno con cuscini inclusi', 149.99, 4),
-('Cascata', 'cascata.jpg', 'Fontana decorativa a cascata per giardino', 124.99, 4),
-('Amaca', 'amaca.jpg', 'Amaca da giardino in cotone resistente, capacità 120kg', 79.99, 4);
+('Supporto fiori', 'images/supporto_fiori.jpg', 'Elegante supporto in metallo per vasi da fiori, altezza 120cm', 45.99, 4),
+('Vaso gatto', 'images/vaso_gatto.jpg', 'Vaso decorativo a forma di gatto, ceramica dipinta a mano', 32.99, 4),
+('Vaso vintage', 'images/vaso_vintage.jpg', 'Vaso in stile retrò con motivi floreali, capacità 5 litri', 28.75, 4),
+('Uccelli in vetro', 'images/uccelli_vetro.jpg', 'Decorazione da giardino con uccellini in vetro', 39.99, 4),
+('Statua donna', 'images/statua_donna.jpg', 'Statua decorativa in resina raffigurante figura femminile', 259.99, 4),
+('Passerella', 'images/passerella.jpg', 'Passerella in legno per giardino, lunghezza 180cm', 65.20, 4),
+('Rana con violino', 'images/rana_violino.jpg', 'Simpatica scultura di rana che suona il violino', 9.99, 4),
+('Obelisco per rampicanti', 'images/obelisco.jpg', 'Struttura in metallo per piante rampicanti, altezza 150cm', 39.99, 4),
+('Lampade vintage', 'images/lampade_vintage.jpg', 'Set di 2 lampade da giardino in stile vintage', 29.99, 4),
+('Gnomo', 'images/gnomo.jpg', 'Classico gnomo da giardino in ceramica dipinta', 19.99, 4),
+('Galline', 'images/galline.jpg', 'Coppia di galline decorative in metallo', 31.99, 4),
+('Dondolo', 'images/dondolo.jpg', 'Dondolo da giardino in legno con cuscini inclusi', 149.99, 4),
+('Cascata', 'images/cascata.jpg', 'Fontana decorativa a cascata per giardino', 124.99, 4),
+('Amaca', 'images/amaca.jpg', 'Amaca da giardino in cotone resistente, capacità 120kg', 79.99, 4);
