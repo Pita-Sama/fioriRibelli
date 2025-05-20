@@ -12,7 +12,7 @@ $user_id = $_SESSION['user'];
 
 // Recupera i dati del carrello
 if (!isset($_SESSION['carrello']) || empty($_SESSION['carrello'])) {
-    header('Location: carrello.php');
+    header('Location: cart.php');
     exit();
 }
 
