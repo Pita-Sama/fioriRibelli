@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -223,10 +227,20 @@
             <span>contattaci</span>
             <span onclick="copyToClipboard(this)">333 2261466</span>
         </div>
-        <div class="auth-buttons">
-            <button class="btn login-btn">Log In</button>
-            <button class="btn signup-btn">Registrati</button>
-        </div>
+        <?php if (isset($_SESSION['user'])): ?>
+    		<!-- Menu a tendina se l'utente è loggato -->
+            <div class="dropdown">
+                <button class="dropdown-btn"><?php echo htmlspecialchars($_SESSION['username']); ?></button>
+                <div class="dropdown-content">
+                    <a href="#" class="btn btn-primary">Profilo</a>
+                </div>
+            </div>
+        <?php else: ?>
+            <!-- Se non c'è sessione, mostra login -->
+            <a href="login.php" class="btn btn-primary">Log-In</a>
+            <a href="register.php" class="btn btn-primary">Sign-In</a>
+
+        <?php endif; ?>
     </header>
 
     <main>
