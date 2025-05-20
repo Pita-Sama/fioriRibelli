@@ -3,12 +3,12 @@ session_start();
 require_once 'collegamento_db.php';
 
 // Verifica che l'utente sia loggato
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['user'])) {
     header('Location: login.php?redirect=checkout.php');
     exit();
 }
 
-$user_id = $_SESSION['user_id'];
+$user_id = $_SESSION['user'];
 
 // Recupera i dati del carrello
 if (!isset($_SESSION['carrello']) || empty($_SESSION['carrello'])) {
